@@ -1,12 +1,74 @@
-# KaoruLinux
-### Bare bones linux kernel setup
-KaoruLinux is a very bare bones linux kernel setup that includes BusyBox for utility commands, musl for the standard C library and tcc (TinyC-Compiler) as ANSI C compiler and linker
----------------------------
-### How to compile
-First of all, you need a kernel image to run the setup. You can get the upstream kernel from the GitHub mirror using `git submodules --init`. This will clone every needed submodules. For Linux you can use `--depth=1` so it won't copy all the git repo history. After running the command to init submodules, cd into linux/ and run `make -j$(nproc)`, you will find a `bzImage` kernel image into the arch/ folder for your host architecture. I raccoment using x86_64 images as I build this setup on my x86_64 host. 
-After compiling the kernel, you need to compile BusyBox, this can be done by entering the busybox/ folder, running `make menuconfig`, flagging the "Build static binary options" (required to not have problems with dynamic libraries) and then running `make -j$(nproc)`. You can now populate the rootfs by running `fill_rootfs.sh` in the main folder.
-Now, compile musl, an alternative libc. To compile musl just run `compile_musl.sh`.
-Now, compile tinyc-compiler, to compile tcc, you need to have the musl libc package installed, so that you have `musl-gcc`. You mustn't use `musl-gcc` that the musl source generates, you have to use the one provided with musl package binaries. When you have `musl-gcc`, you can run `./compile_tcc.sh`.
-To keep things simple but working, I chose to use oksh as a replace for the classic sh shell. If you don't want to edit boot/init and boot/profile, you need to compile oksh from utilities/oksh by using `compile_oksh.sh` in utilities/, this will add the oksh binary in boot/rootfs/kaoru.
-Now, run `gen_initramfs.sh` and you're ready to go! You can test KaoruLinux with QEMU by running `make qemu`.
-NOTES: You can remove `linuxrc` file from boot/rootfs as it is not necessary.
+# **KaoruLinux 🌸**
+
+A minimal, bare-bones Linux distribution environment featuring **BusyBox**, **musl libc**, and the **Tiny C Compiler (TCC)**.
+
+
+**🛠 Features**
+
+* **Kernel:** Upstream Linux Kernel.  
+* **Base Utilities:** [BusyBox](https://busybox.net/) (multi-call binary for standard UNIX tools).  
+* **C Library:** [musl libc](https://musl.libc.org/) (lightweight, fast, and simple).  
+* **Compiler:** [TCC](https://bellard.org/tcc/) (Tiny C Compiler) for on-target ANSI C development.  
+* **Shell:** oksh (OpenBSD Korn Shell port) as the default interactive shell.
+
+
+
+**Build Instructions**
+
+Follow these steps to compile the kernel and assemble the root filesystem.
+
+### **1\. Prerequisites & Kernel Compilation**
+
+Clone the repository and initialize the submodules. It is recommended to use an x86\_64 host.
+
+Bash
+
+\# Clone submodules (shallow clone for the kernel to save space)  
+`git submodule update --init --depth=1`
+
+\# Compile the Linux Kernel  
+`cd linux/`  
+`make -j$(nproc)`  
+
+\# The bzImage will be generated in arch/x86/boot/bzImage (for x86\_64)  
+
+### **2\. BusyBox Setup**
+
+BusyBox provides the core userland utilities.
+
+1. Enter the busybox/ directory.  
+2. Run make menuconfig.  
+3. Enable Settings \-\> Build static binary (no shared libs).  
+4. Run `make -j$(nproc)`  
+5. Return to the root folder and run `./fill_rootfs.sh` to populate the directory structure.
+
+### **3\. C Library & Compiler**
+
+KaoruLinux uses **musl** and **TCC**.
+
+* **musl libc:** Run `./compile_musl.sh` 
+* **TCC:** Ensure you have the musl-gcc wrapper installed on your **host** system (via your distro's package manager).**Note:** Do not use the musl-gcc generated from the local musl source; use the system-provided binary.  
+* Run `./compile_tcc.sh`
+
+### **4\. Shell & Final Assembly**
+
+To ensure compatibility with the provided boot/init and boot/profile:
+
+1. Compile oksh by running `utilities/compile_oksh.sh`. This places the binary in boot/rootfs/kaoru.  
+2. Generate the initramfs: `./gen_initramfs.sh`
+
+**Testing**
+
+You can easily test your build using **QEMU**:
+
+```bash
+make qemu
+```
+
+## ---
+
+**📝 Notes**
+
+* **linuxrc:** You can safely remove the linuxrc file from boot/rootfs as it is not strictly necessary for this initramfs setup.  
+* **Static Linking:** Always ensure userland tools are statically linked if you haven't properly configured the dynamic linker path in the rootfs.
+
