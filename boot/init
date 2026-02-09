@@ -37,8 +37,22 @@ route add default gw 10.0.2.2
 
 chmod +x kaoru/oksh
 ln -sf /kaoru/oksh /usr/bin/oksh
+ln -sf /kaoru/oksh /bin/oksh
+
+if [ $(id -u) -eq 0 ]; then
+    export PS1='\[\033[01;31m\][\u@kaoru \w]# \[\033[00m\]'
+else
+    export PS1='\[\033[01;32m\][\u@kaoru \w]$ \[\033[00m\]'
+fi
+
+chown root:root bin/busybox bin/oksh
+chmod 4755 bin/busybox
+chmod 4755 bin/login
+chmod 4755 bin/su
 
 clear
 echo "Welcome to Kaoru Linux!"
+. /etc/profile
 setsid cttyhack /kaoru/oksh
+. /etc/profile
 export PATH=$PATH:/sbin:/usr/sbin
