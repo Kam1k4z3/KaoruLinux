@@ -1,0 +1,19 @@
+#!/bin/sh
+
+mkdir -p /usr/lib64
+ln -s /usr/local/musl/lib/crt1.o /usr/lib64/crt1.o
+ln -s /usr/local/musl/lib/crti.o /usr/lib64/crti.o
+ln -s /usr/local/musl/lib/crtn.o /usr/lib64/crtn.o
+ln -s /usr/local/musl/lib/libc.a /usr/lib64/libc.a
+
+ln -s /usr/local/musl/include/* /usr/include/
+
+mkdir -p /lib64
+ln -s /usr/local/musl/lib/libc.so /lib/ld-musl-x86_64.so.1
+ln -s /usr/local/musl/lib/libc.so /lib64/ld-linux-x86-64.so.2
+ln -s /usr/local/musl/lib/libc.so /usr/lib/libc.so
+ln -s /usr/local/musl/lib/libc.so /lib/libc.so
+
+clear
+echo "Welcome to Kaoru Linux!"
+/bin/sh
