@@ -20,8 +20,10 @@ touch etc/shadow
 echo "root:::0:99999:7:::" >> etc/shadow
 mkdir -p ./root
 chmod 700 ./root
-rm ../init.cpio
-find . | cpio -o -H newc > ../init.cpio
+cp ../setup_net.sh kaoru/setup_net
+chmod +x kaoru/setup_net
 cp ../init init
 chmod +x init
+rm ../init.cpio
+find . | cpio -o -H newc > ../init.cpio
 cd ../../

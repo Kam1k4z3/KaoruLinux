@@ -38,6 +38,10 @@ route add default gw 10.0.2.2
 chmod +x kaoru/oksh
 ln -sf /kaoru/oksh /usr/bin/oksh
 ln -sf /kaoru/oksh /bin/oksh
+ln -sf /kaoru/bmake /usr/bin/bmake
+ln -sf /kaoru/bmake /bin/bmake
+ln -sf /kaoru/setup_net /bin/setup-net
+ln -sf /kaoru/setup_net /usr/bin/setup-net
 
 if [ $(id -u) -eq 0 ]; then
     export PS1='\[\033[01;31m\][\u@kaoru \w]# \[\033[00m\]'
@@ -52,6 +56,11 @@ chmod 4755 bin/su
 
 clear
 echo "Welcome to Kaoru Linux!"
+echo "Use setup-net to setup network interface easily"
+echo "ANSI C compiler is tcc - using musl libc"
+echo "Shell is oksh"
+echo ""
+
 . /etc/profile
 setsid cttyhack /kaoru/oksh
 . /etc/profile

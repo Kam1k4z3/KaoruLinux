@@ -1,4 +1,5 @@
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export MAKESYSPATH=/usr/share/mk
 if [ $(id -u) -eq 0 ]; then
     export PS1='\[\033[01;31m\][\u@kaoru \w]# \[\033[00m\]'
 else

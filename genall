@@ -1,0 +1,12 @@
+#!/bin/sh
+
+./fill_rootfs.sh
+./compile_musl.sh
+./compile_tcc.sh
+cd utilities
+./compile_oksh.sh
+./compile_bmake.sh
+cd ..
+./gen_initramfs.sh
+./gen_initramfs.sh
+./gen_initramfs.sh
