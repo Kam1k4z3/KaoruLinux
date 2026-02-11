@@ -23,7 +23,15 @@ chmod 700 ./root
 cp ../setup_net.sh kaoru/setup_net
 chmod +x kaoru/setup_net
 cp ../init init
+cp ../pers-init pers-init
+chmod +x pers-init
 chmod +x init
+mkdir usr/kmaps
+cp ../kmaps/*.kmap usr/kmaps 
+mkdir boot
+mkdir -p boot/syslinux
+sudo cp /usr/lib/syslinux/bios/*.c32 boot/syslinux/
+cp ../bzImage boot/vmlinuz
 rm ../init.cpio
 find . | cpio -o -H newc > ../init.cpio
 cd ../../
