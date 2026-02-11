@@ -26,11 +26,17 @@ cp ../init init
 cp ../pers-init pers-init
 chmod +x pers-init
 chmod +x init
-mkdir usr/kmaps
+mkdir -p usr/kmaps
 cp ../kmaps/*.kmap usr/kmaps 
-mkdir boot
-mkdir -p boot/syslinux
-sudo cp /usr/lib/syslinux/bios/*.c32 boot/syslinux/
+mkdir -p boot
+mkdir -p boot/limine
+sudo cp ../limine/limine boot/limine/
+sudo chmod +x boot/limine/limine
+cp ../limine/limine-bios.sys boot/limine
+cp ../limine/BOOTX64.EFI boot/limine
+cp ../limine/limine.conf boot/limine/limine.conf
+# sudo cp /usr/lib/syslinux/bios/*.c32 boot/syslinux/
+# sudo cp /usr/lib/syslinux/bios/mbr.bin boot/syslinux/
 cp ../bzImage boot/vmlinuz
 rm ../init.cpio
 find . | cpio -o -H newc > ../init.cpio
